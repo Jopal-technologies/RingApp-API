@@ -4,18 +4,16 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "@babel/register": "^7.15.3",
     "nodemon": "^2.0.12"
   },
   "scripts": {
-    "start": "nodemon start.js"
+    "start": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",

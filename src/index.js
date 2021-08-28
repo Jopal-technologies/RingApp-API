@@ -1,17 +1,17 @@
-import express from 'express';
-//const express = require('express');
+const express = require('express');
 const app = express();
-const port = 8080;
+const port = 8081;
 const { Sequelize } = require('sequelize');
-const config = require('../config');
+const { config } = require('../config');
 
-app.get('/test', (req, res)=>{
-    res.json("chupame el pito")
+app.get('/test', (_, res)=>{
+    res.json("chupame el pitos")
 });
-const sequelize = new Sequelize('RingApp', 'postgres', config.config.password, {
+
+const sequelize = new Sequelize('RingApp', 'postgres', config.password, {
     host: 'localhost',
     dialect: 'postgres'
-  });
+});
   
 app.listen(port, async()=>{
     try {
