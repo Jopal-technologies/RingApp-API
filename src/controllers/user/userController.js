@@ -13,10 +13,10 @@ const userController = {
             BirthDate: user.birthdate,
             ConfigId: user.configId,
         })
-        a.save();
+        return a.save();
     },
-    putUser: async(user) =>{
-        User.update(
+    putUser: (user, id) =>{
+        return User.update(
             {
                 Name: user.name,
                 Surname: user.surname,
@@ -25,9 +25,9 @@ const userController = {
                 Birthdate: user.birthdate,
                 ConfigId: user.configId,
             },
-            {where: user.id}
-          )
+            {where: { id: id }}
+          );
     },
-    deleteUser: async id => await User.deleteById(id),
+    deleteUser: async id => await User.destroy({where: {id:id}}),
 };
 exports.userController = userController;
