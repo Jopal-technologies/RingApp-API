@@ -10,7 +10,7 @@ class userDto{
         this.surname = params.surname;
         this.email = params.email;
         this.country = params.country;
-        this.birthdate = params.birthdate;
+        this.birthdate = params.birthDate;
         this.configId = params.configId;        
     }
 }

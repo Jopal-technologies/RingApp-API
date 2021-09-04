@@ -6,6 +6,21 @@ const app = express();
 const port = config.port || 8080;
 const { userController }= require('./controllers/user/userController');
 connectDb();
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    }
+    next();
+});
 
 app.get('/users', (_, res)=>{    
     userController.getAllUsers().then((users)=>{
@@ -18,10 +33,8 @@ app.get('/user/:id', (req, res)=>{
     })
 });
 app.post('/user', (req, res)=>{ 
-    console.log(req.body.name);
-    //const user = new userDto(req.body);
-    //userController.postUser(user);
-    
+    const user = new userDto(req.body);
+    userController.postUser(user);
     res.json({
         ok:'ok'
     });
