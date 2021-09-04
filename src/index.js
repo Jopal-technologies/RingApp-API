@@ -1,34 +1,31 @@
+const { userDto } = require('./models/user/userDto');
 const express = require('express');
 const { connectDb } = require('./models/index');
-const { User } = require('./models/user');
 const { config } = require('../config')
 const app = express();
 const port = config.port || 8080;
-
+const { userController }= require('./controllers/user/userController');
 connectDb();
 
-app.get('/test', (_, res)=>{
-    res.json("chupame el pitos")
-});
-app.get('/user', async (req, res)=>{
-    
-    
-    const a = User.build({
-        Name: "Alvaro",
-        Surname: "Alonso",
-        Email: "alvaroarpal@gmail.com",
-        Country: "Spain",
-        BirthDate: "04/04/1996",
-        ConfigId: null,
+app.get('/users', (_, res)=>{    
+    userController.getAllUsers().then((users)=>{
+        res.json(users);
     })
-    a.save().then(paco => {
-        console.log(paco)
-    });
-    
-    const select = await User.findAll();
-    
-    res.json(select)
 });
+app.get('/user/:id', (req, res)=>{ 
+    userController.getUserById(req.params.id).then((user)=>{
+        res.json(user);
+    })
+});
+app.post('/user', (req, res)=>{ 
+    console.log(req.body.name);
+    //const user = new userDto(req.body);
+    //userController.postUser(user);
+    
+    res.json({
+        ok:'ok'
+    });
+}) 
 
 
 app.listen(port, ()=>console.log(`Listening on port ${port}`));

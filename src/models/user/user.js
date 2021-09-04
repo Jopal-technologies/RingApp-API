@@ -1,4 +1,4 @@
-const { config } = require('../../config');
+const { config } = require('../../../config');
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize(`${config.dataBase.dbType}://${config.dataBase.user}:${config.dataBase.password}@${config.dataBase.host}:5432/${config.dataBase.dbName}`);
 
