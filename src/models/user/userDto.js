@@ -6,12 +6,12 @@ class userDto{
     birthdate;
     configId;
     constructor(params){
-        this.name = params.name;
-        this.surname = params.surname;
-        this.email = params.email;
-        this.country = params.country;
-        this.birthdate = params.birthDate;
-        this.configId = params.configId;        
+        this.name = params.name ? params.name : undefined;
+        this.surname = params.surname ? params.surname : undefined;
+        this.email = params.email ? params.email : undefined;
+        this.country = params.country ? params.country : undefined;
+        this.birthdate = params.birthDate ? params.birthDate : undefined;
+        this.configId = params.configId ? params.configId : undefined;        
     }
 }
 exports.userDto= userDto;
