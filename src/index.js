@@ -27,18 +27,29 @@ app.get('/users', (_, res)=>{
         res.json(users);
     })
 });
+
 app.get('/user/:id', (req, res)=>{ 
     userController.getUserById(req.params.id).then((user)=>{
         res.json(user);
     })
 });
-app.post('/user', (req, res)=>{ 
+
+app.post('/user', async (req, res)=>{ 
     const user = new userDto(req.body);
-    userController.postUser(user);
-    res.json({
-        ok:'ok'
-    });
-}) 
+    const insertedUser = await userController.postUser(user);
+    res.json(insertedUser);
+}); 
+
+app.put('/user/:id', async (req, res)=>{ 
+    const user = new userDto(req.body);
+    const updatedUser = await userController.putUser(user, req.params.id);
+    res.json(updatedUser);
+});
+
+app.delete('/user/:id', async (req, res) => {
+    const deletedUser = await userController.deleteUser(req.params.id);
+    res.json(deletedUser);
+})
 
 
 app.listen(port, ()=>console.log(`Listening on port ${port}`));
