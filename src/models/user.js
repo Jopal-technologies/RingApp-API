@@ -1,12 +1,8 @@
+const { config } = require('../../config');
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const sequelize = new Sequelize(`${config.dataBase.dbType}://${config.dataBase.user}:${config.dataBase.password}@${config.dataBase.host}:5432/${config.dataBase.dbName}`);
 
 const User = sequelize.define('User', {
-    Id: {
-      type: DataTypes.BIGINT,
-      primaryKey: true,
-      allowNull: true
-    },
     Name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -29,34 +25,23 @@ const User = sequelize.define('User', {
     },
     ConfigId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
 })
 
-console.log(User);
-console.log(User === sequelize.models.User);
 
-
+exports.User = User;
+exports.sequelize = sequelize;
 
 
 (async()=>{
     try{ 
-        //await sequelize.drop();
-        await User.sync({ force: false })
+      await User.sync()
     }catch(e){
         console.log(e);
         console.log('failed');
     }
-    
 })();
 
-const a = User.build({
-    Name: "Alvaro",
-    Surname: "Alonso",
-    Email: "alvaroarpal@gmail.com",
-    Country: "Spain",
-    BirthDate: "04/04/1996",
-    ConfigId: 1,
-})
-a.save();
+
 
