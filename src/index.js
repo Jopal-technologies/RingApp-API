@@ -1,11 +1,13 @@
 // #region imports
 const { userDto } = require('./models/user/userDto');
+const { languageDto } = require('./models/langauge/languageDto');
 const express = require('express');
 const { connectDb } = require('./models/index');
 const { config } = require('../config')
 const app = express();
 const port = config.port || 8080;
 const { userController }= require('./controllers/user/userController');
+const { languageController } = require('./controllers/language/languageController');
 // #endregion
 
 // #region App setup
@@ -58,6 +60,37 @@ app.delete('/user/:id', async (req, res) => {
 
 // #endregion
 // #region Configuration
+
     //TODO: [RIN-5] Jopa a programar cabroncete
+// #endregion
+// #region Langauges
+app.get('/language', (_, res)=>{    
+    languageController.getAllLanguagess().then((languages)=>{
+        res.json(languages);
+    })
+});
+
+app.get('/languages/:id', (req, res)=>{ 
+    languageController.getLanguagesById(req.params.id).then((languages)=>{
+        res.json(languages);
+    })
+});
+
+app.post('/languages', async (req, res)=>{ 
+    const languages = new languageDto(req.body);
+    const insertedLanguages = await languageController.postLanguage(languages);
+    res.json(insertedLanguages);
+}); 
+
+app.put('/languages/:id', async (req, res)=>{ 
+    const languages = new languageDto(req.body);
+    const updatedLanguages = await languageController.putLanguage(languages, req.params.id);
+    res.json(updatedLanguages);
+});
+
+app.delete('/languages/:id', async (req, res) => {
+    const deletedLanguage = await languageController.deleteLanguage(req.params.id);
+    res.json(deletedLanguage);
+})
 // #endregion
 app.listen(port, ()=>console.log(`Listening on port ${port}`));
