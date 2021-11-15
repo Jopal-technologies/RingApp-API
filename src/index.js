@@ -58,6 +58,49 @@ app.delete('/user/:id', async (req, res) => {
     res.json(deletedUser);
 })
 
+//get all languages
+app.get('/languages', (_, res)=>{    
+    languageController.getAllLanguages().then((languages)=>{
+        res.json(languages);
+    })
+});
+
+// get language by id
+app.get('/language/:id', (req, res)=>{ 
+    languageController.getLanguageById(req.params.id).then((language)=>{
+        res.json(language);
+    })
+});
+
+// post language
+app.post('/language', async (req, res)=>{
+    const language = new languageDto(req.body);
+    const insertedLanguage = await languageController.postLanguage(language);
+    res.json(insertedLanguage);
+});
+
+// put language
+app.put('/language/:id', async (req, res)=>{
+    const language = new languageDto(req.body);
+    const updatedLanguage = await languageController.putLanguage(language, req.params.id);
+    res.json(updatedLanguage);
+});
+
+// delete language
+app.delete('/language/:id', async (req, res) => {
+    const deletedLanguage = await languageController.deleteLanguage(req.params.id);
+    res.json(deletedLanguage);
+});
+
+// #endregion
+
+// #region Server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+// #endregion
+
+
 // #endregion
 // #region Configuration
 
